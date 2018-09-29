@@ -10,12 +10,11 @@
         android:id="@+id/addEmotionView"
         android:layout_width="347dp"
         android:layout_height="263dp"
-        android:layout_marginBottom="16dp"
         android:background="@android:color/white"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/emotionListView">
 
         <TextView
             android:id="@+id/addEmotionText"
@@ -37,12 +36,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:onClick="saveEmotionButtonClick"
             android:text="@string/save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/cancelButton"
-            app:layout_constraintTop_toBottomOf="@+id/addCommentEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/addCommentEditText"
+            android:focusable="true" />
 
         <Spinner
             android:id="@+id/emotionSelectionSpinner"
@@ -66,8 +68,8 @@
             android:layout_marginStart="8dp"
             android:ems="10"
             android:inputType="textMultiLine|textWebEditText|textFilter"
+            android:selectAllOnFocus="true"
             android:singleLine="false"
-            android:text="@string/add_comment"
             android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@+id/saveButton"
             app:layout_constraintEnd_toEndOf="parent"
@@ -82,11 +84,14 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:clickable="true"
+            android:onClick="closeAddEmotionView"
             android:text="@string/cancel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/saveButton"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:focusable="true" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -99,7 +104,7 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:onClick="onSlideViewButtonClick"
+        android:onClick="addEmotionButtonClick"
         android:padding="15dp"
         app:backgroundTint="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -115,6 +120,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:layout_height="0dp">
 
     </ListView>

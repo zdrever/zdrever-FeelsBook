@@ -3,13 +3,17 @@ package com.example.zachdrever.feelsbook;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,32 +28,46 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends Activity{
 
     private static final String FILENAME = "feelsbook.wav";
-    private ListView emotionHistory;
-    private View addEmotionView;
-    private FloatingActionButton addEmotionButton;
-    private Boolean viewVisible = Boolean.FALSE;
 
-    ArrayList<Emotion> emotionList;
-    ArrayAdapter<Emotion> adapter;
+    // emotionList elements
+    private ListView emotionHistory;
+    private FloatingActionButton addEmotionButton;
+    private ArrayList<FeltEmotion> feltEmotionList;
+    private ArrayAdapter<FeltEmotion> emotionListAdapter;
+
+    // addEmotionView elements
+    private View addEmotionView;
+    private Button saveEmotionButton;
+    private Button cancelButton;
+    private EditText commentText;
+    private Spinner emotionSpinner;
+    private ArrayAdapter<Emotion> spinnerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        // FeltEmotion List View setup
         addEmotionView = findViewById(R.id.addEmotionView);
         emotionHistory = findViewById(R.id.emotionListView);
         addEmotionButton = findViewById(R.id.addEmotionButton);
-
         loadFromFile();
+        emotionListAdapter = new ArrayAdapter<FeltEmotion>(this, R.layout.main, feltEmotionList);
+        emotionHistory.setAdapter(emotionListAdapter);
 
-        adapter = new ArrayAdapter<Emotion>(this, R.layout.main, emotionList);
-
-        emotionHistory.setAdapter(adapter);
+        // Add FeltEmotion View setup
+        saveEmotionButton = findViewById(R.id.saveButton);
+        cancelButton = findViewById(R.id.cancelButton);
+        commentText = (EditText) findViewById(R.id.addCommentEditText);
+        emotionSpinner = (Spinner) findViewById(R.id.emotionSelectionSpinner);
+        spinnerAdapter = new ArrayAdapter<Emotion>(this, android.R.layout.simple_spinner_dropdown_item, Emotion.values());
+        emotionSpinner.setAdapter(spinnerAdapter);
     }
 
     private void loadFromFile() {
@@ -58,22 +76,27 @@ public class MainActivity extends Activity{
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 
             Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<Emotion>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<FeltEmotion>>(){}.getType();
 
-            emotionList = gson.fromJson(in, listType);
+            feltEmotionList = gson.fromJson(in, listType);
 
         } catch (FileNotFoundException e) {
-            emotionList = new ArrayList<Emotion>();
+            feltEmotionList = new ArrayList<FeltEmotion>();
         }
     }
 
     private void saveInFile() {
         try {
+            Emotion e = (Emotion) emotionSpinner.getSelectedItem();
+            String c = commentText.getText().toString();
+            Date d = new Date();
+            feltEmotionList.add(new FeltEmotion(e, c, d));
+
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
             Gson gson = new Gson();
 
-            gson.toJson(emotionList, out);
+            gson.toJson(feltEmotionList, out);
             out.flush();
             fos.close();
 
@@ -85,35 +108,50 @@ public class MainActivity extends Activity{
     }
 
     public void slideUp(View view){
-        view.setVisibility(View.VISIBLE);
+        view.setVisibility(view.INVISIBLE);
+        view.setEnabled(false);
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
                 0,                 // toXDelta
-                view.getHeight(),  // fromYDelta
-                0);                // toYDelta
+                0,  // fromYDelta
+                -view.getHeight());                // toYDelta
         animate.setDuration(500);
         animate.setFillAfter(true);
         view.startAnimation(animate);
     }
 
-    // slide the view from its current position to below itself
+    // slide the view from above itself to its current position
     public void slideDown(View view){
+        view.setVisibility(View.VISIBLE);
+        view.setEnabled(true);
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
                 0,                 // toXDelta
-                0,                 // fromYDelta
-                view.getHeight()); // toYDelta
+                -view.getHeight(),                 // fromYDelta
+                0); // toYDelta
         animate.setDuration(500);
         animate.setFillAfter(true);
         view.startAnimation(animate);
     }
 
-    public void onSlideViewButtonClick(View view) {
-        if (viewVisible) {
-            slideDown(addEmotionView);
-        } else {
-            slideUp(addEmotionView);
-        }
-        viewVisible = !viewVisible;
+    public void addEmotionButtonClick(View view) {
+        commentText.setText(getResources().getString(R.string.add_comment));
+        emotionHistory.setEnabled(false);
+        addEmotionButton.hide();
+        addEmotionButton.setEnabled(false);
+        slideDown(addEmotionView);
+    }
+
+    public void saveEmotionButtonClick(View view){
+        saveInFile();
+        emotionListAdapter.notifyDataSetChanged();
+        closeAddEmotionView(view);
+    }
+
+    public void closeAddEmotionView(View view){
+        emotionHistory.setEnabled(true);
+        slideUp(addEmotionView);
+        addEmotionButton.show();
+        addEmotionButton.setEnabled(true);
     }
 }
