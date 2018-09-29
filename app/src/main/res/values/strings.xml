@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">FeelsBook</string>
+    <string name="choose_emotion">What are you feeling?</string>
+    <string name="add_comment">Why is that?</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string-array name="emotions_array">
+        <item>Love</item>
+        <item>Joy</item>
+        <item>Surprise</item>
+        <item>Anger</item>
+        <item>Sadness</item>
+        <item>Fear</item>
+    </string-array>
+</resources>
