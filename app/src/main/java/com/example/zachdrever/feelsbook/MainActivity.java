@@ -54,18 +54,17 @@ public class MainActivity extends Activity{
         setContentView(R.layout.main);
 
         // FeltEmotion List View setup
-        addEmotionView = findViewById(R.id.addEmotionView);
+        addEmotionView = findViewById(R.id.addEmotionLayout);
         emotionHistory = findViewById(R.id.emotionListView);
         addEmotionButton = findViewById(R.id.addEmotionButton);
         loadFromFile();
-        emotionListAdapter = new ArrayAdapter<FeltEmotion>(this, R.layout.main, feltEmotionList);
+        emotionListAdapter = new ArrayAdapter<FeltEmotion>(this, R.layout.list_item, feltEmotionList);
         emotionHistory.setAdapter(emotionListAdapter);
 
-        // Add FeltEmotion View setup
         saveEmotionButton = findViewById(R.id.saveButton);
         cancelButton = findViewById(R.id.cancelButton);
-        commentText = (EditText) findViewById(R.id.addCommentEditText);
-        emotionSpinner = (Spinner) findViewById(R.id.emotionSelectionSpinner);
+        commentText = findViewById(R.id.addCommentEditText);
+        emotionSpinner = findViewById(R.id.emotionSelectionSpinner);
         spinnerAdapter = new ArrayAdapter<Emotion>(this, android.R.layout.simple_spinner_dropdown_item, Emotion.values());
         emotionSpinner.setAdapter(spinnerAdapter);
     }
