@@ -3,12 +3,14 @@ package com.example.zachdrever.feelsbook;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,11 +30,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends Activity{
 
     private static final String FILENAME = "feelsbook.wav";
+    public static final String FELTEMOTION = "com.example.zachdrever.feelsbook.FELTEMOTION";
 
     // emotionList elements
     private ListView emotionHistory;
@@ -67,6 +71,17 @@ public class MainActivity extends Activity{
         emotionSpinner = findViewById(R.id.emotionSelectionSpinner);
         spinnerAdapter = new ArrayAdapter<Emotion>(this, android.R.layout.simple_spinner_dropdown_item, Emotion.values());
         emotionSpinner.setAdapter(spinnerAdapter);
+
+        emotionHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view,
+                                           int position, long id) {
+
+                Intent intent = new Intent(adapterView.getContext(), EditOrDeleteEmotion.class);
+                intent.putExtra(FELTEMOTION, feltEmotionList.get(position));
+                startActivity(intent);
+            }
+        });
     }
 
     private void loadFromFile() {
@@ -87,8 +102,8 @@ public class MainActivity extends Activity{
     private void saveInFile() {
         try {
             Emotion e = (Emotion) emotionSpinner.getSelectedItem();
-            String c = commentText.getText().toString();
-            Date d = new Date();
+            String c = commentText.getText().toString(); //TODO: throw error for comment > chars
+            Calendar d = Calendar.getInstance();
             feltEmotionList.add(new FeltEmotion(e, c, d));
 
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
@@ -134,7 +149,7 @@ public class MainActivity extends Activity{
     }
 
     public void addEmotionButtonClick(View view) {
-        commentText.setText(getResources().getString(R.string.add_comment));
+        commentText.setText("");
         emotionHistory.setEnabled(false);
         addEmotionButton.hide();
         addEmotionButton.setEnabled(false);
