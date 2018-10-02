@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends Activity{
+public class MainActivity extends AppCompatActivity{
 
     private static final String FILENAME = "feelsbook.wav";
     public static final String FELTEMOTION = "com.example.zachdrever.feelsbook.FELTEMOTION";
@@ -41,7 +42,7 @@ public class MainActivity extends Activity{
     // emotionList elements
     private ListView emotionHistory;
     private FloatingActionButton addEmotionButton;
-    private ArrayList<FeltEmotion> feltEmotionList;
+    private FeltEmotionListController emotionListController;
     private ArrayAdapter<FeltEmotion> emotionListAdapter;
 
     // addEmotionView elements
@@ -61,8 +62,8 @@ public class MainActivity extends Activity{
         addEmotionView = findViewById(R.id.addEmotionLayout);
         emotionHistory = findViewById(R.id.emotionListView);
         addEmotionButton = findViewById(R.id.addEmotionButton);
-        loadFromFile();
-        emotionListAdapter = new ArrayAdapter<FeltEmotion>(this, R.layout.list_item, feltEmotionList);
+        emotionListController = new FeltEmotionListController(this);
+        emotionListAdapter = new ArrayAdapter<FeltEmotion>(this, R.layout.list_item, emotionListController.getFeltEmotionArrayList());
         emotionHistory.setAdapter(emotionListAdapter);
 
         saveEmotionButton = findViewById(R.id.saveButton);
@@ -78,47 +79,18 @@ public class MainActivity extends Activity{
                                            int position, long id) {
 
                 Intent intent = new Intent(adapterView.getContext(), EditOrDeleteEmotion.class);
-                intent.putExtra(FELTEMOTION, feltEmotionList.get(position));
+                intent.putExtra(FELTEMOTION, position);
                 startActivity(intent);
             }
         });
     }
 
-    private void loadFromFile() {
-        try {
-            FileInputStream fis = openFileInput(FILENAME);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+    @Override
+    protected void onResume(){
+        super.onResume();
 
-            Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<FeltEmotion>>(){}.getType();
-
-            feltEmotionList = gson.fromJson(in, listType);
-
-        } catch (FileNotFoundException e) {
-            feltEmotionList = new ArrayList<FeltEmotion>();
-        }
-    }
-
-    private void saveInFile() {
-        try {
-            Emotion e = (Emotion) emotionSpinner.getSelectedItem();
-            String c = commentText.getText().toString(); //TODO: throw error for comment > chars
-            Calendar d = Calendar.getInstance();
-            feltEmotionList.add(new FeltEmotion(e, c, d));
-
-            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-            Gson gson = new Gson();
-
-            gson.toJson(feltEmotionList, out);
-            out.flush();
-            fos.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        emotionListController.loadFromFile();
+        emotionListAdapter.notifyDataSetChanged();
     }
 
     public void slideUp(View view){
@@ -128,7 +100,7 @@ public class MainActivity extends Activity{
                 0,                 // fromXDelta
                 0,                 // toXDelta
                 0,  // fromYDelta
-                -view.getHeight());                // toYDelta
+                view.getHeight());                // toYDelta
         animate.setDuration(500);
         animate.setFillAfter(true);
         view.startAnimation(animate);
@@ -141,7 +113,7 @@ public class MainActivity extends Activity{
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
                 0,                 // toXDelta
-                -view.getHeight(),                 // fromYDelta
+                view.getHeight(),                 // fromYDelta
                 0); // toYDelta
         animate.setDuration(500);
         animate.setFillAfter(true);
@@ -157,7 +129,10 @@ public class MainActivity extends Activity{
     }
 
     public void saveEmotionButtonClick(View view){
-        saveInFile();
+        Emotion e = (Emotion) emotionSpinner.getSelectedItem();
+        String c = commentText.getText().toString(); //TODO: throw error for comment > chars
+        Calendar d = Calendar.getInstance();
+        emotionListController.addFeltEmotion(new FeltEmotion(e, c, d));
         emotionListAdapter.notifyDataSetChanged();
         closeAddEmotionView(view);
     }

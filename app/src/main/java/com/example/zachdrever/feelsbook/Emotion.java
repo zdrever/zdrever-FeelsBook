@@ -14,7 +14,7 @@ public enum Emotion {
         this.emotion = emotion;
     }
 
-    public String getEmotion(){ return this.emotion; }
+    public String toString(){return this.emotion;}
     public void setEmotion(String emotion) { this.emotion = emotion;}
     public static String getEmotionAtIndex(int i){ return Emotion.values()[i].toString();}
 }

@@ -17,14 +17,14 @@ public class FeltEmotion implements Serializable {
         this.comment = comment;
     }
 
-    public String getEmotion() {
-        return emotion.getEmotion();
-    }
+    public Emotion getEmotion() { return this.emotion; }
 
     public Calendar getDate(){
         return this.date;
     }
-    public void setDate(Calendar date){this.date.set(date.YEAR, date.MONTH, date.DAY_OF_MONTH, date.HOUR_OF_DAY, date.MINUTE); }
+    public void setDate(Calendar date){
+        this.date = date;
+    }
 
     public String getComment(){
         return this.comment;
@@ -34,9 +34,7 @@ public class FeltEmotion implements Serializable {
     }
 
     public String toString(){
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM yyyy @ hh:mm");
-        return this.emotion.getEmotion() +
-                "\n" + this.comment +
-                "\n" + sdf.format(this.date.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd, yyyy @ hh:mm");
+        return this.emotion.toString() + "\n" + sdf.format(this.date.getTime());
     }
 }
