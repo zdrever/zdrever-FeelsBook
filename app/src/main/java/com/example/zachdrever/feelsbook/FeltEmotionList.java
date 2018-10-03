@@ -6,6 +6,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 
+/**
+ * FeltEmotionList
+ *
+ * Composed of an ArrayList<FeltEmotion>. Implements functionality
+ * for the feelsbook application
+ *
+ * @see FeltEmotion
+ */
 public class FeltEmotionList {
 
     private ArrayList<FeltEmotion> emotionList;

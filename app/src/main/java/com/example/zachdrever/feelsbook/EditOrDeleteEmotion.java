@@ -14,6 +14,11 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * EditOrDeleteEmotion
+ *
+ * App activity for editing and deleting emotions
+ */
 public class EditOrDeleteEmotion extends AppCompatActivity {
 
     private TextView emotionText;

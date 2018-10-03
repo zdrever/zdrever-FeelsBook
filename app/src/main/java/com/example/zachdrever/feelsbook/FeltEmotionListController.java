@@ -18,7 +18,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-
+/**
+ * FeltEmotionListController
+ *
+ * Controller for the FeltEmotionList. Mainly implements
+ * saving to and loading the FeltEmotionList from disk.
+ *
+ * @see FeltEmotionList
+ */
 public class FeltEmotionListController {
 
     private final String FILENAME = "emotionlist.wav";

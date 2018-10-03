@@ -1,13 +1,14 @@
 package com.example.zachdrever.feelsbook;
 
-import android.support.annotation.NonNull;
-
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
 
+/**
+ * FeltEmotion implements Comparable
+ *
+ * Represents an emotion that a person has felt for the feelsbook
+ * application.
+ */
 public class FeltEmotion implements Comparable<FeltEmotion> {
 
     private Emotion emotion;

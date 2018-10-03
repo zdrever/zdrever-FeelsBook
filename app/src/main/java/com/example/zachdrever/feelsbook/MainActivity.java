@@ -19,6 +19,13 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.HashMap;
 
+/**
+ * MainActivity
+ *
+ * Implements functionality such as seeing the emotion history,
+ * adding emotions, selecting emotions to edit or delete, and
+ * displaying counts of all the emotions.
+ */
 public class MainActivity extends AppCompatActivity{
 
     public static final String FELTEMOTION = "com.example.zachdrever.feelsbook.FELTEMOTION";
