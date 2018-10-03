@@ -16,7 +16,6 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
 
 
@@ -25,7 +24,7 @@ public class FeltEmotionListController {
     private final String FILENAME = "emotionlist.wav";
 
     private Context context;
-    FeltEmotionList emotionList;
+    private FeltEmotionList emotionList;
 
     FeltEmotionListController(Context context){
         this.context = context;
@@ -50,7 +49,7 @@ public class FeltEmotionListController {
         }
     }
 
-    protected void saveInFile() {
+    private void saveInFile() {
         try {
             FileOutputStream fos = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));

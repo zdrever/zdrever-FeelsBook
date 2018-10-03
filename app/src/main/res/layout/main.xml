@@ -188,6 +188,7 @@
             android:selectAllOnFocus="true"
             android:singleLine="false"
             android:textAlignment="center"
+            android:maxLength="100"
             app:layout_constraintBottom_toTopOf="@+id/saveButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
