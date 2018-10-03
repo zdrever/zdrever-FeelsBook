@@ -17,6 +17,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
 
 
 public class FeltEmotionListController {
@@ -87,5 +88,18 @@ public class FeltEmotionListController {
     public void editFeltEmotion(int position, String comment, Calendar date){
         emotionList.editFeltEmotion(position, comment, date);
         saveInFile();
+    }
+
+    public HashMap<String,String> getCounts(){
+        HashMap<String, Integer> counts = emotionList.countEmotions();
+        HashMap<String, String> countStrings = new HashMap<>();
+        for (String k: counts.keySet()){
+            countStrings.put(k, k + " : " + counts.get(k).toString());
+        }
+        return countStrings;
+    }
+
+    public String getCount(String emotion) {
+        return emotion + " : " + emotionList.countEmotion(emotion);
     }
 }

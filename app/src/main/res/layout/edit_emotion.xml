@@ -8,9 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
@@ -47,6 +45,7 @@
             android:layout_height="120dp"
             android:calendarViewShown="false"
             android:datePickerMode="spinner"
+            android:descendantFocusability="blocksDescendants"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editCommentText">
         </DatePicker>
@@ -55,6 +54,7 @@
             android:id="@+id/timePicker"
             android:layout_width="match_parent"
             android:layout_height="120dp"
+            android:descendantFocusability="blocksDescendants"
             android:timePickerMode="spinner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

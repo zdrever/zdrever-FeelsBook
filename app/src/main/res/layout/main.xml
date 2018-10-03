@@ -7,6 +7,74 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <RelativeLayout
+        android:id="@+id/countsRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="?android:attr/statusBarColor">
+
+        <TextView
+            android:id="@+id/loveCount"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/surpriseCount"
+            android:layout_marginLeft="140dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/surpriseCount"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/joyCount"
+            android:layout_marginLeft="140dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/joyCount"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/loveCount"
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/sadnessCount"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/angerCount"
+            android:layout_marginTop="-1dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/angerCount"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/fearCount"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/fearCount"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addEmotionButton"
         android:layout_width="wrap_content"
@@ -32,12 +100,14 @@
         android:id="@+id/innerLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:orientation="vertical">
 
         <ListView
             android:id="@+id/emotionListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="523dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_marginBottom="0dp"
@@ -49,6 +119,7 @@
             tools:layout_height="0dp">
 
         </ListView>
+
     </LinearLayout>
 
     <RelativeLayout
@@ -107,8 +178,8 @@
 
         <EditText
             android:id="@+id/addCommentEditText"
-            android:layout_width="336dp"
-            android:layout_height="81dp"
+            android:layout_width="335dp"
+            android:layout_height="84dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="72dp"
@@ -148,7 +219,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="50dp"
             android:layout_marginTop="106dp"
-            tools:text="@string/comment" />
+            android:text="@string/comment" />
 
     </RelativeLayout>
 

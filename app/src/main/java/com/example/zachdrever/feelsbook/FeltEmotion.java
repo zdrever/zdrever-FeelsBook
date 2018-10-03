@@ -1,11 +1,14 @@
 package com.example.zachdrever.feelsbook;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 
-public class FeltEmotion implements Serializable {
+public class FeltEmotion implements Comparable<FeltEmotion> {
 
     private Emotion emotion;
     private Calendar date;
@@ -22,9 +25,7 @@ public class FeltEmotion implements Serializable {
     public Calendar getDate(){
         return this.date;
     }
-    public void setDate(Calendar date){
-        this.date = date;
-    }
+    public void setDate(Calendar date){ this.date = date; }
 
     public String getComment(){
         return this.comment;
@@ -36,5 +37,9 @@ public class FeltEmotion implements Serializable {
     public String toString(){
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd, yyyy @ hh:mm");
         return this.emotion.toString() + "\n" + sdf.format(this.date.getTime());
+    }
+
+    public int compareTo(FeltEmotion emotion) {
+        return Long.compare(emotion.getDate().getTimeInMillis(), this.date.getTimeInMillis());
     }
 }

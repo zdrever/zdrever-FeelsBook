@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -33,6 +34,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -52,6 +54,15 @@ public class MainActivity extends AppCompatActivity{
     private EditText commentText;
     private Spinner emotionSpinner;
     private ArrayAdapter<Emotion> spinnerAdapter;
+
+    private TextView loveCount;
+    private TextView joyCount;
+    private TextView surpriseCount;
+    private TextView angerCount;
+    private TextView sadnessCount;
+    private TextView fearCount;
+    HashMap<String, TextView> counts;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +84,23 @@ public class MainActivity extends AppCompatActivity{
         spinnerAdapter = new ArrayAdapter<Emotion>(this, android.R.layout.simple_spinner_dropdown_item, Emotion.values());
         emotionSpinner.setAdapter(spinnerAdapter);
 
+        loveCount = findViewById(R.id.loveCount);
+        joyCount = findViewById(R.id.joyCount);
+        surpriseCount = findViewById(R.id.surpriseCount);
+        angerCount = findViewById(R.id.angerCount);
+        sadnessCount = findViewById(R.id.sadnessCount);
+        fearCount = findViewById(R.id.fearCount);
+
+        counts = new HashMap<>();
+        counts.put("Love", loveCount);
+        counts.put("Joy", joyCount);
+        counts.put("Surprise", surpriseCount);
+        counts.put("Anger", angerCount);
+        counts.put("Sadness", sadnessCount);
+        counts.put("Fear", fearCount);
+
+        setCounts();
+
         emotionHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
@@ -91,9 +119,10 @@ public class MainActivity extends AppCompatActivity{
 
         emotionListController.loadFromFile();
         emotionListAdapter.notifyDataSetChanged();
+        setCounts();
     }
 
-    public void slideUp(View view){
+    public void slideDown(View view){
         view.setVisibility(view.INVISIBLE);
         view.setEnabled(false);
         TranslateAnimation animate = new TranslateAnimation(
@@ -106,8 +135,8 @@ public class MainActivity extends AppCompatActivity{
         view.startAnimation(animate);
     }
 
-    // slide the view from above itself to its current position
-    public void slideDown(View view){
+    // slide the view from below itself to its current position
+    public void slideUp(View view){
         view.setVisibility(View.VISIBLE);
         view.setEnabled(true);
         TranslateAnimation animate = new TranslateAnimation(
@@ -122,10 +151,15 @@ public class MainActivity extends AppCompatActivity{
 
     public void addEmotionButtonClick(View view) {
         commentText.setText("");
-        emotionHistory.setEnabled(false);
         addEmotionButton.hide();
+        emotionHistory.setEnabled(false);
         addEmotionButton.setEnabled(false);
-        slideDown(addEmotionView);
+        addEmotionView.setEnabled(true);
+        saveEmotionButton.setEnabled(true);
+        cancelButton.setEnabled(true);
+        commentText.setEnabled(true);
+        emotionSpinner.setEnabled(true);
+        slideUp(addEmotionView);
     }
 
     public void saveEmotionButtonClick(View view){
@@ -134,13 +168,32 @@ public class MainActivity extends AppCompatActivity{
         Calendar d = Calendar.getInstance();
         emotionListController.addFeltEmotion(new FeltEmotion(e, c, d));
         emotionListAdapter.notifyDataSetChanged();
+        updateCount(e.toString());
         closeAddEmotionView(view);
     }
 
     public void closeAddEmotionView(View view){
-        emotionHistory.setEnabled(true);
-        slideUp(addEmotionView);
+        slideDown(addEmotionView);
         addEmotionButton.show();
+        emotionHistory.setEnabled(true);
         addEmotionButton.setEnabled(true);
+        addEmotionView.setEnabled(false);
+        saveEmotionButton.setEnabled(false);
+        cancelButton.setEnabled(false);
+        commentText.setEnabled(false);
+        emotionSpinner.setEnabled(false);
+    }
+
+    public void updateCount(String emotion){
+        String s = emotionListController.getCount(emotion);
+        counts.get(emotion).setText(s);
+    }
+
+    public void setCounts(){
+        HashMap<String, String> countStrings = emotionListController.getCounts();
+
+        for (Emotion e: Emotion.values()){
+            counts.get(e.toString()).setText(countStrings.get(e.toString()));
+        }
     }
 }

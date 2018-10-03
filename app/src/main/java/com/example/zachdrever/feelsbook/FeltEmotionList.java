@@ -1,34 +1,17 @@
 package com.example.zachdrever.feelsbook;
 
-import android.content.Context;
-import android.net.sip.SipAudioCall;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 
 public class FeltEmotionList {
 
-    protected ArrayList<FeltEmotion> emotionList;
+    private ArrayList<FeltEmotion> emotionList;
 
     FeltEmotionList(){
-        this.emotionList = new ArrayList<FeltEmotion>();
-    }
-
-    FeltEmotionList(ArrayList<FeltEmotion> emotionList){
-        this.emotionList = emotionList;
+        this.emotionList = new ArrayList<>();
     }
 
     protected void clear(){
@@ -55,9 +38,35 @@ public class FeltEmotionList {
         FeltEmotion emotion = this.getFeltEmotion(position);
         emotion.setComment(comment);
         emotion.setDate(date);
+        this.sort();
     }
 
     protected FeltEmotion getFeltEmotion(int position){
         return this.emotionList.get(position);
+    }
+
+    private void sort(){
+        Collections.sort(this.emotionList);
+    }
+
+    protected HashMap<String, Integer> countEmotions(){
+        HashMap<String, Integer> counts = new HashMap<>();
+        for (Emotion e: Emotion.values()){
+            counts.put(e.toString(), 0);
+        }
+
+        for (FeltEmotion e: emotionList) {
+            counts.put(e.getEmotion().toString(), counts.get(e.getEmotion().toString()) + 1);
+        }
+
+        return counts;
+    }
+
+    protected Integer countEmotion(String emotion){
+        int i = 0;
+        for (FeltEmotion e : this.emotionList){
+            i += e.getEmotion().toString().equals(emotion) ? 1 : 0;
+        }
+        return i;
     }
 }
