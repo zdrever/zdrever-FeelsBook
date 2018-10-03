@@ -1,5 +1,4 @@
 package com.example.zachdrever.feelsbook;
-//TODO: https://stackoverflow.com/questions/19765938/show-and-hide-a-view-with-a-slide-up-down-animation
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -111,6 +110,13 @@ public class MainActivity extends AppCompatActivity{
         setCounts();
     }
 
+    /**
+     * Animated panel taken from stack overflow:
+     * https://stackoverflow.com/questions/19765938/show-and-hide-a-view-with-a-slide-up-down-animation
+     * Username: Suragch
+     * Post date: Oct 9 17'
+     * Access date: Sept 28 18'
+     */
     public void slideDown(View view){
         view.setVisibility(view.INVISIBLE);
         view.setEnabled(false);
