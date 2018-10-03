@@ -36,7 +36,13 @@ public class FeltEmotion implements Comparable<FeltEmotion> {
 
     public String toString(){
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd, yyyy @ hh:mm");
-        return this.emotion.toString() + "\n" + sdf.format(this.date.getTime());
+        String format;
+        if (this.comment.equals("")) {
+            format = this.emotion.toString() + "\n" + sdf.format(this.date.getTime());
+        } else {
+            format = this.emotion.toString() + "\n" + this.comment + "\n" + sdf.format(this.date.getTime());
+        }
+        return format;
     }
 
     public int compareTo(FeltEmotion emotion) {
