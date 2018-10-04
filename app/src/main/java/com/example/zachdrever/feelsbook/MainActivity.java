@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     /**
-     * Animated panel taken from stack overflow:
+     * Animated slid out panel taken from stack overflow:
      * https://stackoverflow.com/questions/19765938/show-and-hide-a-view-with-a-slide-up-down-animation
      * Username: Suragch
      * Post date: Oct 9 17'
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity{
 
     public void saveEmotionButtonClick(View view){
         Emotion e = (Emotion) emotionSpinner.getSelectedItem();
-        String c = commentText.getText().toString(); //TODO: throw error for comment > chars
+        String c = commentText.getText().toString();
         Calendar d = Calendar.getInstance();
         emotionListController.addFeltEmotion(new FeltEmotion(e, c, d));
         emotionListAdapter.notifyDataSetChanged();

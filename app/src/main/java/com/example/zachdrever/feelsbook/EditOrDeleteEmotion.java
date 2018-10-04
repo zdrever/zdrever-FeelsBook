@@ -75,8 +75,6 @@ public class EditOrDeleteEmotion extends AppCompatActivity {
 
     public void deleteEmotion(View v){
         emotionListController.removeFeltEmotion(feltEmotion);
-        this.finish();
+        finish();
     }
-
-
 }
