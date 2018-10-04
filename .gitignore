@@ -5,7 +5,8 @@
 *.class
 
 # Gradle 
-.gradle/*
+.gradle/
+build/
 
 # Generated files
 bin/
